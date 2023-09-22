@@ -1,0 +1,21 @@
+
+contract Payment {
+    @address bigint balance;
+    
+    @address function bool transfer(address to, bigint amount) export
+    {
+        if(balance >= amount)
+        {
+            balance -= amount;
+            relay@to (^amount)
+            {
+                __debug.print("deposit: ", amount);
+                balance += amount;
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+}
